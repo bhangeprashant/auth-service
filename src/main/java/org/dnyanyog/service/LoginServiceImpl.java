@@ -1,6 +1,8 @@
 package org.dnyanyog.service;
 
 import java.util.List;
+
+import org.dnyanyog.common.ResponseCodes;
 import org.dnyanyog.dto.LoginRequest;
 import org.dnyanyog.dto.LoginResponse;
 import org.dnyanyog.encryption.EncryptionService;
@@ -32,11 +34,11 @@ public class LoginServiceImpl implements LoginService {
 		}
 		
 		if (liUser.size() == 1) {
-			response.setStatus("Success");
-			response.setMessage("Login successful");
+			response.setStatus(ResponseCodes.USER_LOGIN_SUCCESS.getCode());
+			response.setMessage(ResponseCodes.USER_LOGIN_SUCCESS.getMessage());
 		} else {
-			response.setStatus("Fail");
-			response.setMessage("Login failed");
+			response.setStatus(ResponseCodes.USER_LOGIN_FAIL.getCode());
+			response.setMessage(ResponseCodes.USER_LOGIN_FAIL.getMessage());
 		}
 
 		return response;
