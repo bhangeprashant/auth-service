@@ -1,7 +1,6 @@
 package org.dnyanyog.service;
 
 import java.util.List;
-
 import org.dnyanyog.dto.LoginRequest;
 import org.dnyanyog.dto.LoginResponse;
 import org.dnyanyog.encryption.EncryptionService;
@@ -23,11 +22,15 @@ public class LoginServiceImpl implements LoginService {
 
 		LoginResponse response = new LoginResponse();
 
-		List<Users> liUser = userRepo
-				.findByUsernameAndPassword(
-						loginRequest.getUsername(), 
-						loginRequest.getPassword());
-
+		List<Users> liUser = null;
+		try {
+			liUser = userRepo.findByUsernameAndPassword(loginRequest.getUsername(),
+					encryptionService.encrypt(loginRequest.getPassword()));
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		if (liUser.size() == 1) {
 			response.setStatus("Success");
 			response.setMessage("Login successful");
@@ -35,6 +38,7 @@ public class LoginServiceImpl implements LoginService {
 			response.setStatus("Fail");
 			response.setMessage("Login failed");
 		}
+
 		return response;
 	}
 }
