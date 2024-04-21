@@ -1,7 +1,6 @@
 package org.dnyanyog.service;
 
 import java.util.List;
-
 import org.dnyanyog.common.ResponseCodes;
 import org.dnyanyog.dto.LoginRequest;
 import org.dnyanyog.dto.LoginResponse;
@@ -14,33 +13,32 @@ import org.springframework.stereotype.Service;
 @Service
 public class LoginServiceImpl implements LoginService {
 
-	@Autowired
-	UsersRepository userRepo;
-	
-	@Autowired
-	EncryptionService encryptionService;
+  @Autowired UsersRepository userRepo;
 
-	public LoginResponse validateUser(LoginRequest loginRequest) {
+  @Autowired EncryptionService encryptionService;
 
-		LoginResponse response = new LoginResponse();
+  public LoginResponse validateUser(LoginRequest loginRequest) {
 
-		List<Users> liUser = null;
-		try {
-			liUser = userRepo.findByUsernameAndPassword(loginRequest.getUsername(),
-					encryptionService.encrypt(loginRequest.getPassword()));
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		if (liUser.size() == 1) {
-			response.setStatus(ResponseCodes.USER_LOGIN_SUCCESS.getCode());
-			response.setMessage(ResponseCodes.USER_LOGIN_SUCCESS.getMessage());
-		} else {
-			response.setStatus(ResponseCodes.USER_LOGIN_FAIL.getCode());
-			response.setMessage(ResponseCodes.USER_LOGIN_FAIL.getMessage());
-		}
+    LoginResponse response = new LoginResponse();
 
-		return response;
-	}
+    List<Users> liUser = null;
+    try {
+      liUser =
+          userRepo.findByUsernameAndPassword(
+              loginRequest.getUsername(), encryptionService.encrypt(loginRequest.getPassword()));
+    } catch (Exception e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+
+    if (liUser.size() == 1) {
+      response.setStatus(ResponseCodes.USER_LOGIN_SUCCESS.getCode());
+      response.setMessage(ResponseCodes.USER_LOGIN_SUCCESS.getMessage());
+    } else {
+      response.setStatus(ResponseCodes.USER_LOGIN_FAIL.getCode());
+      response.setMessage(ResponseCodes.USER_LOGIN_FAIL.getMessage());
+    }
+
+    return response;
+  }
 }

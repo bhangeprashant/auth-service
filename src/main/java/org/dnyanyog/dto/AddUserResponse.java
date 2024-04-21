@@ -1,58 +1,56 @@
 package org.dnyanyog.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import com.fasterxml.jackson.annotation.JsonInclude;
 
 @Component
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class AddUserResponse {
 
-	private String status;
-	private String message;
-	private String userId;
+  private String status;
+  private String message;
+  private String userId;
 
-	@Autowired
-	public UserData userData;
+  @Autowired public UserData userData;
 
-	public static AddUserResponse getInstance() {
-		return new AddUserResponse();
-	}
+  public static AddUserResponse getInstance() {
+    return new AddUserResponse();
+  }
 
-	public UserData getUserData() {
-		return userData;
-	}
+  public UserData getUserData() {
+    return userData;
+  }
 
-	public AddUserResponse setUserData(UserData userData) {
-		this.userData = userData;
-		return this;
-	}
+  public AddUserResponse setUserData(UserData userData) {
+    this.userData = userData;
+    return this;
+  }
 
-	public String getUserId() {
-		return userId;
-	}
+  public String getUserId() {
+    return userId;
+  }
 
-	public AddUserResponse setUserId(String userId) {
-		this.userId = userId;
-		return this;
-	}
+  public AddUserResponse setUserId(String userId) {
+    this.userId = userId;
+    return this;
+  }
 
-	public String getStatus() {
-		return status;
-	}
+  public String getStatus() {
+    return status;
+  }
 
-	public AddUserResponse setStatus(String status) {
-		this.status = status;
-		return this;
-	}
+  public AddUserResponse setStatus(String status) {
+    this.status = status;
+    return this;
+  }
 
-	public String getMessage() {
-		return message;
-	}
+  public String getMessage() {
+    return message;
+  }
 
-	public AddUserResponse setMessage(String message) {
-		this.message = message;
-		return this;
-	}
+  public AddUserResponse setMessage(String message) {
+    this.message = message;
+    return this;
+  }
 }

@@ -1,6 +1,7 @@
 package org.dnyanyog.service;
 
 import static java.util.Objects.nonNull;
+
 import java.util.List;
 import java.util.Optional;
 import org.dnyanyog.common.ResponseCodes;
@@ -19,91 +20,89 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserManagementServiceImpl implements UserManagementService {
 
-	Logger logger = LoggerFactory.getLogger(UserManagementServiceImpl.class);
-	
-	@Autowired
-	UsersRepository userRepo; // Ask Spring to give object of 'Query class for Users' i.e UserRepository
-	
-	@Autowired
-	AddUserResponse userResponse;
+  Logger logger = LoggerFactory.getLogger(UserManagementServiceImpl.class);
 
-	@Autowired
-	private List<String> userIds;
+  @Autowired
+  UsersRepository
+      userRepo; // Ask Spring to give object of 'Query class for Users' i.e UserRepository
 
-	@Autowired
-	RolesRepository roleRepo;
+  @Autowired AddUserResponse userResponse;
 
-	@Autowired
-	EncryptionService encryptionService;
+  @Autowired private List<String> userIds;
 
-	public Optional<AddUserResponse> addUser(AddUserRequest request) {
+  @Autowired RolesRepository roleRepo;
 
-		Users usersTable = new Users(); // Create table object in which we set data from request
+  @Autowired EncryptionService encryptionService;
 
-		usersTable.setAge(request.getAge());
-		usersTable.setEmail(request.getEmail());
-		try {
-			usersTable.setPassword(encryptionService.encrypt(request.getPassword()));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		usersTable.setUsername(request.getUsername());
-		usersTable.setUserId("USR" + RandomStringGenerator.generateRandomString(5));
+  public Optional<AddUserResponse> addUser(AddUserRequest request) {
 
-		/*
-		 * 
-		 * Users usersTable = Users.getInstance() .setAge(request.getAge())
-		 * .setEmail(request.getEmail()) .setPassword(request.getPassword())
-		 * .setUsername(request.getUsername())
-		 * .setUserId("USR"+RandomStringGenerator.generateRandomString(5));
-		 * 
-		 */
+    Users usersTable = new Users(); // Create table object in which we set data from request
 
-		usersTable = userRepo.save(usersTable); // Ask repostiry to save the data from userTable to DB Table
+    usersTable.setAge(request.getAge());
+    usersTable.setEmail(request.getEmail());
+    try {
+      usersTable.setPassword(encryptionService.encrypt(request.getPassword()));
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    usersTable.setUsername(request.getUsername());
+    usersTable.setUserId("USR" + RandomStringGenerator.generateRandomString(5));
 
-		userResponse.setMessage(ResponseCodes.USER_ADD_SUCCESS.getMessage()); // Response set
-		userResponse.setStatus(ResponseCodes.USER_ADD_SUCCESS.getCode());
-		userResponse.setUserId(usersTable.getUserId());
-		userResponse.getUserData().setEmail(usersTable.getEmail());
-		userResponse.getUserData().setUsername(usersTable.getUsername());
-		userResponse.getUserData().setPassword(usersTable.getPassword());
-		userResponse.getUserData().setAge(usersTable.getAge());
+    /*
+     *
+     * Users usersTable = Users.getInstance() .setAge(request.getAge())
+     * .setEmail(request.getEmail()) .setPassword(request.getPassword())
+     * .setUsername(request.getUsername())
+     * .setUserId("USR"+RandomStringGenerator.generateRandomString(5));
+     *
+     */
 
-		return Optional.of(userResponse);
-	}
+    usersTable =
+        userRepo.save(usersTable); // Ask repostiry to save the data from userTable to DB Table
 
-	public AddUserResponse getSingleUser(String userId) {
+    userResponse.setMessage(ResponseCodes.USER_ADD_SUCCESS.getMessage()); // Response set
+    userResponse.setStatus(ResponseCodes.USER_ADD_SUCCESS.getCode());
+    userResponse.setUserId(usersTable.getUserId());
+    userResponse.getUserData().setEmail(usersTable.getEmail());
+    userResponse.getUserData().setUsername(usersTable.getUsername());
+    userResponse.getUserData().setPassword(usersTable.getPassword());
+    userResponse.getUserData().setAge(usersTable.getAge());
 
-		Users user = userRepo.findByUserId(userId);
+    return Optional.of(userResponse);
+  }
 
-		if (null == user) {
-			userResponse.setStatus(ResponseCodes.USER_NOT_FOUND.getCode());
-			userResponse.setMessage(ResponseCodes.USER_NOT_FOUND.getMessage());
-		} else {
-			userResponse.setStatus(ResponseCodes.USER_FOUND_SUCCESS.getCode());
-			userResponse.setMessage(ResponseCodes.USER_FOUND_SUCCESS.getMessage());
-			userResponse.setUserId(user.getUserId());
-			userResponse.getUserData().setEmail(user.getEmail());
-			userResponse.getUserData().setUsername(user.getUsername());
-			userResponse.getUserData().setPassword(user.getPassword());
-			userResponse.getUserData().setAge(user.getAge());
-		}
-		return userResponse;
-	}
+  public AddUserResponse getSingleUser(String userId) {
 
-	public List<Users> getAllUser() {
-		return userRepo.findAll();
-	}
+    Users user = userRepo.findByUserId(userId);
 
-	public List<String> getAllUserIds() {
+    if (null == user) {
+      userResponse.setStatus(ResponseCodes.USER_NOT_FOUND.getCode());
+      userResponse.setMessage(ResponseCodes.USER_NOT_FOUND.getMessage());
+    } else {
+      userResponse.setStatus(ResponseCodes.USER_FOUND_SUCCESS.getCode());
+      userResponse.setMessage(ResponseCodes.USER_FOUND_SUCCESS.getMessage());
+      userResponse.setUserId(user.getUserId());
+      userResponse.getUserData().setEmail(user.getEmail());
+      userResponse.getUserData().setUsername(user.getUsername());
+      userResponse.getUserData().setPassword(user.getPassword());
+      userResponse.getUserData().setAge(user.getAge());
+    }
+    return userResponse;
+  }
 
-		List<Users> users = userRepo.findAll();
+  public List<Users> getAllUser() {
+    return userRepo.findAll();
+  }
 
-		for (Users user : users) {
-			if (nonNull(user)) {
-				userIds.add(user.getUserId());
-			}
-		}
-		return userIds;
-	}
+  public List<String> getAllUserIds() {
+
+    List<Users> users = userRepo.findAll();
+
+    for (Users user : users) {
+      if (nonNull(user)) {
+        userIds.add(user.getUserId());
+      }
+    }
+    return userIds;
+  }
 }

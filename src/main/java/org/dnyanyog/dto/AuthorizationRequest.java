@@ -1,5 +1,3 @@
 package org.dnyanyog.dto;
 
-public class AuthorizationRequest {
-
-}
+public class AuthorizationRequest {}
