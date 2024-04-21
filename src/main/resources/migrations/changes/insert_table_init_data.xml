@@ -1,0 +1,48 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd">
+	<changeSet author="Prashant Bhange" id="20240421">
+		<insert schemaName="auth_directory" tableName="users">
+			<column name="userCode" valueNumeric="101101"/>
+            <column name="userId" value="PB123"/>
+            <column name="username" value="pbhange"/>
+            <column name="password" value="Test@123"/>
+            <column name="email" value="pbhange@gmail.com"/>
+            <column name="age" value="30"/>
+		</insert>
+	</changeSet>
+	
+	<changeSet author="Prashant Bhange" id="20240421-1">
+		<insert schemaName="auth_directory" tableName="users">
+			<column name="userCode" valueNumeric="101102"/>
+            <column name="userId" value="VZ456"/>
+            <column name="username" value="vzodge"/>
+            <column name="password" value="Test@456"/>
+            <column name="email" value="vzodge@gmail.com"/>
+            <column name="age" value="40"/>
+		</insert>		
+	</changeSet>
+	
+	<changeSet author="Prashant Bhange" id="20240421-2">
+		<insert schemaName="auth_directory" tableName="users">
+			<column name="userCode" valueNumeric="101103"/>
+            <column name="userId" value="GR789"/>
+            <column name="username" value="grevanwar"/>
+            <column name="password" value="Test@789"/>
+            <column name="email" value="grevanwar@gmail.com"/>
+            <column name="age" value="50"/>
+		</insert>
+	</changeSet>
+	
+	<changeSet author="Prashant Bhange" id="20240421-3">
+		<insert schemaName="auth_directory" tableName="roles">
+            <column name="roleId" valueNumeric="1"/>
+            <column name="roleName" value="Admin"/>
+        </insert>
+        <insert schemaName="auth_directory" tableName="roles">
+            <column name="roleId" valueNumeric="2"/>
+            <column name="roleName" value="User"/>
+        </insert>
+	</changeSet>
+</databaseChangeLog>
